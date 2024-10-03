@@ -1,49 +1,53 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
-import 'package:pariwisata/data/List_pariwisata2.dart'; // Your list of tourism spots
 
-class DetailPariwisata extends StatelessWidget {
-  final wisataa wisataw; // Correct naming for a tourism object
+import '../model/pariwisata_list.dart';
 
-  const DetailPariwisata({super.key, required this.wisataw});
+class PariwisataDetailScreeen extends StatelessWidget {
+  final PariwisataList pariwisata;
+
+  const PariwisataDetailScreeen({super.key, required this.pariwisata});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff1B1734),
+      appBar: AppBar(
+        backgroundColor: const Color(0xff161329),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+            size: 30,
+            weight: 300,
+          ),
+        ),
+        title: const Text(
+          'Detail Pariwisata',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           SizedBox(
             width: double.infinity, // Make the image responsive to screen width
             height: 300,
             child: Image.asset(
-              wisataw.foto,
+              pariwisata.foto!,
               fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30, left: 1),
-            child: Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black87,
-                      size: 30,
-                      weight: 300,
-                    )),
-                const Spacer(),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.share,
-                      color: Colors.black,
-                    )),
-              ],
             ),
           ),
           Padding(
@@ -67,7 +71,7 @@ class DetailPariwisata extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 17, top: 40),
                   child: Text(
-                    wisataw.namaa,
+                    pariwisata.nama!,
                     style: const TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
@@ -147,7 +151,7 @@ class DetailPariwisata extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          Text(wisataw.alamat,
+                          Text(pariwisata.alamat!,
                               style: const TextStyle(
                                   color: Colors.white54, fontSize: 14)),
                         ],
@@ -180,7 +184,7 @@ class DetailPariwisata extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        wisataw.deskripsi,
+                        pariwisata.deskripsi!,
                         style: const TextStyle(color: Colors.white),
                       ),
                     ],

@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:pariwisata/pages/wisatalistscreen.dart';
+import 'package:pariwisata/pages/pariwisata_list_screen.dart';
 
 
 class TombolNav extends StatefulWidget {
-  TombolNav({Key? key});
+  const TombolNav({super.key});
 
   @override
   State<TombolNav> createState() => _TombolNavState();
@@ -22,7 +22,13 @@ class _TombolNavState extends State<TombolNav> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> listpage = <Widget>[
-      const list(),
+      PariwisataListScreen(),
+      const Center(
+        child: Text('Favorite'),
+      ),
+      const Center(
+        child: Text('Profile'),
+      ),
     ];
 
     final List<BottomNavigationBarItem> bottomNavBarItems =

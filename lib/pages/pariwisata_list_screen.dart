@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pariwisata/pages/pariwisata_detail_screeen.dart';
+import 'package:pariwisata/pages/pariwisata_detail_screen.dart';
 
 import '../model/pariwisata_list.dart';
 
@@ -95,7 +95,7 @@ class PariwisataListScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PariwisataDetailScreeen(
+                  builder: (context) => PariwisataDetailScreen(
                     pariwisata: pariwisataList[index],
                   ),
                 ),

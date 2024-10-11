@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:pariwisata/pages/pariwisata_list_screen.dart';
 
+import '../pages/favorites_screen.dart';
 
 class TombolNav extends StatefulWidget {
   const TombolNav({super.key});
@@ -23,9 +23,7 @@ class _TombolNavState extends State<TombolNav> {
   Widget build(BuildContext context) {
     final List<Widget> listpage = <Widget>[
       PariwisataListScreen(),
-      const Center(
-        child: Text('Favorite'),
-      ),
+      const FavoritesScreen(),
       const Center(
         child: Text('Profile'),
       ),

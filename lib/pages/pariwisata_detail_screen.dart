@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../model/pariwisata_list.dart';
+import '../provider/favorite_provider.dart';
 
 class PariwisataDetailScreen extends StatelessWidget {
   final PariwisataList pariwisata;
@@ -14,7 +17,7 @@ class PariwisataDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildHeaderImage(),
+            _buildHeaderImage(context),
             _buildContentSection(),
           ],
         ),
@@ -34,9 +37,9 @@ class PariwisataDetailScreen extends StatelessWidget {
           size: 30,
         ),
       ),
-      title: const Text(
+      title: Text(
         'Detail Pariwisata',
-        style: TextStyle(color: Colors.white),
+        style: GoogleFonts.inter(color: Colors.white),
       ),
       centerTitle: true,
       actions: [
@@ -51,7 +54,7 @@ class PariwisataDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderImage() {
+  Widget _buildHeaderImage(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -65,47 +68,69 @@ class PariwisataDetailScreen extends StatelessWidget {
         Positioned(
           right: 15,
           bottom: 10,
-          child: _buildFavoriteButton(),
+          child: _buildFavoriteButton(context),
         ),
       ],
     );
   }
 
-  Widget _buildFavoriteButton() {
-    return Material(
-      elevation: 3,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 240, 160, 41),
+  Widget _buildFavoriteButton(BuildContext context) {
+    return Consumer<FavoriteProvider>(
+      builder: (context, favoriteProvider, child) {
+        final isFavorite = favoriteProvider.isFavorite(pariwisata);
+
+        return Material(
+          elevation: 3,
           borderRadius: BorderRadius.circular(10),
-        ),
-        child: InkWell(
-          onTap: () {},
-          borderRadius: BorderRadius.circular(10),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.star,
-                  color: Colors.white,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'Favorite',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 240, 160, 41),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: InkWell(
+              onTap: () {
+                // Mengubah status favorit
+                favoriteProvider.toggleFavorite(pariwisata);
+
+                // Menampilkan Snackbar dengan pesan
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      isFavorite
+                          ? '${pariwisata.nama} dihapus dari favori'
+                          : '${pariwisata.nama} ditambahkan ke favorit',
+                    ),
+                    duration: const Duration(seconds: 2), // Durasi Snackbar
+                    backgroundColor: isFavorite ? Colors.red : Colors.green,
                   ),
+                );
+              },
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      isFavorite ? Icons.star : Icons.star_border,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      isFavorite ? 'Hapus dari Favorit' : 'Tambah ke Favorit',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

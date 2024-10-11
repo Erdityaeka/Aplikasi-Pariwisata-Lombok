@@ -102,7 +102,7 @@ class PariwisataListScreen extends StatelessWidget {
               );
             },
             child: Card(
-              margin: const EdgeInsets.all(16),
+              margin: const EdgeInsets.all(10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

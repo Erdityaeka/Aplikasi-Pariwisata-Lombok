@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import '../model/pariwisata_list.dart';
 import '../provider/favorite_provider.dart';
 
-class PariwisataDetailScreen extends StatelessWidget {
+class PariwisataDetailScreen extends ConsumerWidget {
   final PariwisataList pariwisata;
 
   const PariwisataDetailScreen({super.key, required this.pariwisata});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: const Color(0xff1B1734),
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildHeaderImage(context),
+            _buildHeaderImage(context, ref),
             _buildContentSection(),
           ],
         ),
@@ -54,7 +54,7 @@ class PariwisataDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderImage(BuildContext context) {
+  Widget _buildHeaderImage(BuildContext context, WidgetRef ref) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -68,16 +68,16 @@ class PariwisataDetailScreen extends StatelessWidget {
         Positioned(
           right: 15,
           bottom: 10,
-          child: _buildFavoriteButton(context),
+          child: _buildFavoriteButton(context, ref),
         ),
       ],
     );
   }
 
-  Widget _buildFavoriteButton(BuildContext context) {
-    return Consumer<FavoriteProvider>(
-      builder: (context, favoriteProvider, child) {
-        final isFavorite = favoriteProvider.isFavorite(pariwisata);
+  Widget _buildFavoriteButton(BuildContext context, WidgetRef ref) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final isFavorite = ref.watch(favoriteProvider).contains(pariwisata);
 
         return Material(
           elevation: 3,
@@ -89,10 +89,8 @@ class PariwisataDetailScreen extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                // Mengubah status favorit
-                favoriteProvider.toggleFavorite(pariwisata);
+                ref.read(favoriteProvider.notifier).toggleFavorite(pariwisata);
 
-                // Menampilkan Snackbar dengan pesan
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
@@ -100,7 +98,7 @@ class PariwisataDetailScreen extends StatelessWidget {
                           ? '${pariwisata.nama} dihapus dari favori'
                           : '${pariwisata.nama} ditambahkan ke favorit',
                     ),
-                    duration: const Duration(seconds: 2), // Durasi Snackbar
+                    duration: const Duration(seconds: 2),
                     backgroundColor: isFavorite ? Colors.red : Colors.green,
                   ),
                 );

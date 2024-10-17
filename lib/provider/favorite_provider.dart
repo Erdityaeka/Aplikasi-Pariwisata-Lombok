@@ -1,21 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/pariwisata_list.dart';
 
-class FavoriteProvider with ChangeNotifier {
-  final List<PariwisataList> _favoriteItems = [];
-
-  List<PariwisataList> get favoriteItems => _favoriteItems;
+class FavoriteNotifier extends StateNotifier<List<PariwisataList>> {
+  FavoriteNotifier() : super([]);
 
   void toggleFavorite(PariwisataList item) {
-    if (_favoriteItems.contains(item)) {
-      _favoriteItems.remove(item);
+    if (state.contains(item)) {
+      state = state.where((element) => element != item).toList();
     } else {
-      _favoriteItems.add(item);
+      state = [...state, item];
     }
-    notifyListeners();
   }
 
   bool isFavorite(PariwisataList item) {
-    return _favoriteItems.contains(item);
+    return state.contains(item);
   }
 }
+
+final favoriteProvider =
+    StateNotifierProvider<FavoriteNotifier, List<PariwisataList>>((ref) {
+  return FavoriteNotifier();
+});

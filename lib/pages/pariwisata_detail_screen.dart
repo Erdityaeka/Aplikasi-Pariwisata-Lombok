@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../model/pariwisata_list.dart';
-import '../provider/favorite_provider.dart';
+import '../provider/favorite_notifier.dart';
 
 class PariwisataDetailScreen extends ConsumerWidget {
   final PariwisataList pariwisata;

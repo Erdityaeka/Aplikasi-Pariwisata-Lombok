@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import '../provider/favorite_provider.dart';
+import '../provider/favorite_notifier.dart';
 import 'pariwisata_detail_screen.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final favoriteProvider = Provider.of<FavoriteProvider>(context);
-    final favoriteItems = favoriteProvider.favoriteItems;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteItems = ref.watch(favoriteProvider);
 
     return Scaffold(
       appBar: AppBar(

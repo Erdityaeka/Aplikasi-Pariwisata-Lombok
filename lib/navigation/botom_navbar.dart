@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pariwisata/pages/pariwisata_list_screen.dart';
 
 import '../pages/favorites_screen.dart';
+import '../pages/pariwisata_list_screen.dart';
 
 class TombolNav extends StatefulWidget {
   const TombolNav({super.key});
